@@ -1,0 +1,49 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+
+    <j:set var="helpURL" value="/plugin/rlcnotifier"/>
+
+    <f:entry>
+        <table width="100%">
+
+            <f:entry title="Serena Release Control Server" help="${helpURL}/help-site.html" field="siteName" >
+                <select class="setting-input" name="rlc.siteName">
+                    <j:forEach var="s" items="${descriptor.sites}">
+                        <f:option selected="${s.displayName==instance.siteName}">${s.displayName}</f:option>
+                    </j:forEach>
+                </select>
+            </f:entry>
+
+            <f:entry title="Use Another User" field="useAnotherUser">
+                <f:checkbox name="rlc.useAnotherUser" checked="${instance.useAnotherUser}"/>
+            </f:entry>
+            <f:entry title="User Name" field="anotherUser" help="${helpURL}/help-user.html">
+                <f:textbox name="rlc.anotherUser" value="${instance.anotherUser}"/>
+            </f:entry>
+            <f:entry title="User Password" field="anotherPassword" help="${helpURL}/help-password.html">
+                <f:password name="rlc.anotherPassword" value="${instance.anotherPassword}"/>
+            </f:entry>
+            <f:entry title="">
+                <div style="text-align: right">
+                    <f:validateButton
+                            title="${%Test Connection}" progress="${%Testing...}"
+                            method="testUserConnection"
+                            with="rlc.siteName,rlc.anotherUser,rlc.anotherPassword"/>
+                </div>
+            </f:entry>
+
+            <f:entry title="Task Execution Id" help="${helpURL}/help-executionId.html" field="executionId" >
+                <f:textbox name="rlc.executionId" value="${instance.executionId}" default="${RLC_EXECUTION_ID}"/>
+            </f:entry>
+
+            <f:entry title="Notify UNSTABLE as failure" help="${helpURL}/help-unstable.html" field="skip">
+                <f:checkbox name="rlc.unstable" checked="${instance.unstable}" />
+            </f:entry>
+
+            <f:entry title="Skip notification (e.g. temporarily)" help="${helpURL}/help-unstable.html" field="skip">
+                <f:checkbox name="rlc.skip" checked="${instance.skip}" />
+            </f:entry>
+
+        </table>
+    </f:entry>
+
+</j:jelly>
